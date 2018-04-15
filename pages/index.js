@@ -1,13 +1,16 @@
-// ステートレスPageコンポーネント
-const Page = ({ userAgent }) => <div>userAgent: {userAgent}</div>;
+import fetch from 'isomorphic-fetch';
 
-// コンポーネントにgetInitialPropsメソッドを追加
-Page.getInitialProps = async data => {
-  if (data.req) {
-    // 取得したユーザエージェントをクライアントサイドに渡す
-    const userAgent = data.req.headers['user-agent'];
-    return { userAgent };
-  }
-};
+// Propsで受け取ったstarsを表示するコンポーネント
+const Page = ({ stars }) =>
+  <div>
+    Next stars: {stars}
+  </div>
 
-export default Page;
+// PageコンポーネントにgetInitialPropsを追加
+Page.getInitialProps = async ({ req }) => {
+  const res = await fetch('https://api.github.com/repos/zeit/next.js')
+  const json = await res.json()
+  return { stars: json.stargazers_count }
+}
+
+export default Page
