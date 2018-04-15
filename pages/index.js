@@ -1,8 +1,7 @@
-import Link from 'next/link'
+import Router from 'next/router';
 
-export default () =>
+export default () => (
   <div>
-    <Link href="/about">
-      <a>about here</a>
-    </Link>
+    about <span onClick={() => Router.push('/about')}>here</span>
   </div>
+);
