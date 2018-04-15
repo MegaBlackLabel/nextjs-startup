@@ -1,16 +1,13 @@
-import React from 'react'
-export default class extends React.Component {
-  // サーバサイド時にgetInitialPropsの処理が実行される
-  static async getInitialProps({ req }) {
-    if (req) {
-      // reqがある(サーバサイド処理)なのでheadersデータを取得
-      const userAgent = req.headers['user-agent'];
-      // 取得したユーザエージェントをクライアントサイドにpropsとして渡す
-      return { userAgent };
-    }
+// ステートレスPageコンポーネント
+const Page = ({ userAgent }) => <div>userAgent: {userAgent}</div>;
+
+// コンポーネントにgetInitialPropsメソッドを追加
+Page.getInitialProps = async data => {
+  if (data.req) {
+    // 取得したユーザエージェントをクライアントサイドに渡す
+    const userAgent = data.req.headers['user-agent'];
+    return { userAgent };
   }
-  render() {
-    // propsとして受け取ったuserAgentを表示
-    return <div>userAgent: {this.props.userAgent}</div>;
-  }
-}
+};
+
+export default Page;
